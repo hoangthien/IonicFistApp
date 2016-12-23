@@ -25,17 +25,25 @@ angular.module('starter', ['ionic', 'ngCordova'])
     });
 })
 
-.controller("appCtrl", function($scope, $cordovaSQLite, $ionicPopup, $timeout) {
+.controller("appCtrl", function($ionicPlatform, $scope, $cordovaSQLite, $ionicPopup, $timeout) {
+    // Load dữ liệu khi chạy ứng dụng
+    $ionicPlatform.ready(function() {
+        $scope.show();
+    });
+    $scope.product = {name: '', info: ''};
+    //Thêm
     $scope.add = function(product) {
-        if((product.name != null && product.name != '') && (product.info != null && product.info != '')) {
+        if((product.name != null && product.name != '') && (product.info != null && product.info != '') && (product.name != undefined)) {
             var query = "INSERT INTO fruit(name,info)VALUES(?,?)";
             $cordovaSQLite.execute(db, query, [product.name, product.info]);
-            product.name = null;
-            product.info = null;
+            $scope.product.name = null;
+            $scope.product.info = null;
             $scope.show();
+            // Hiển thị popup
             var myPopup = $ionicPopup.show({
                 title: 'Thêm thành công'
             });
+            // Tắt pupup sau 500 mi li giây
             $timeout(function() {
                 myPopup.close();
             }, 500);
@@ -49,6 +57,7 @@ angular.module('starter', ['ionic', 'ngCordova'])
             }, 500);
         }
     }
+    // Xóa dữ liệu trong bảng
     $scope.del = function(product) {
         var query = "DELETE FROM fruit";
         $cordovaSQLite.execute(db, query);
@@ -60,6 +69,7 @@ angular.module('starter', ['ionic', 'ngCordova'])
         }, 500);
         $scope.show();
     }
+    // Hiển thị dữ liệu
     $scope.show = function() {
         var query = "SELECT * FROM fruit ";
         $scope.array = [];
