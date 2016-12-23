@@ -21,7 +21,7 @@
     <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
 
     <!-- your app's js -->
-    <script src="js/app.js"></script>
+    <script src="app/app.js"></script>
 </head>
 
 <body ng-app="starter" ng-controller="appCtrl">
@@ -34,7 +34,7 @@
             <div class="list">
                 <div class="item item-input">
                     <span class="input-label" spellcheck="true"> Tên </span>
-                    <input type="text" ng-model="product.name" placeholder="Name">
+                    <input type="text" ng-model="product.name" placeholder="Name" autofocus>
                 </div>
                 <div class="item item-input">
                     <span class="input-label" spellcheck="false"> Mô tả</span>
@@ -42,22 +42,23 @@
                 </div>
                 <button class="button button-positive button-block" ng-click="add(product)">Add</button>
             </div>
+            <button class="button button-positive button-block" ng-click="del(product)">Delete</button>
             <div class="list">
-                <button class="button button-positive button-block" ng-click="show()">Show</button>
                 <table>
                     <tr>
                         <th>STT</th>
                         <th>Tên sản phẩm</th>
                         <th>Mô tả</th>
+                        <th>Chỉnh sửa</th>
                     </tr>
                     <tr ng-repeat="product in array">
                         <td>{{ product.id }}</td>
                         <td>{{ product.name }}</td>
                         <td>{{ product.info }}</td>
+                        <td><button class="button button-positive button-block" ng-click="edit(product.id)">Edit</button></td>
                     </tr>
                 </table>
             </div>
-            <button class="button button-positive button-block" ng-click="del(product)">Delete</button>
         </ion-content>
     </ion-pane>
 </body>
