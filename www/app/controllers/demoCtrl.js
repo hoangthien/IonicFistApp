@@ -1,31 +1,5 @@
-// Ionic Starter App
-var db = null;
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ngCordova'])
-
-.run(function($ionicPlatform, $cordovaSQLite) {
-    $ionicPlatform.ready(function() {
-        if (window.cordova && window.cordova.plugins.Keyboard) {
-            // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-            // for form inputs)
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-
-            // Don't remove this line unless you know what you are doing. It stops the viewport
-            // from snapping when text inputs are focused. Ionic handles this internally for
-            // a much nicer keyboard experience.
-            cordova.plugins.Keyboard.disableScroll(true);
-        }
-        if (window.StatusBar) {
-            StatusBar.styleDefault();
-        }
-        db = window.openDatabase("sql.db", "1", "Demo", "2000");
-        $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS fruit(id integer primary key, name text, info text)");
-    });
-})
-
-.controller("appCtrl", function($ionicPlatform, $scope, $cordovaSQLite, $ionicPopup, $timeout) {
+angular.module('app.controllers')
+.controller("demoCtrl", function($ionicPlatform, $scope, $cordovaSQLite, $ionicPopup, $timeout) {
     // Load dữ liệu khi chạy ứng dụng
     $ionicPlatform.ready(function() {
         $scope.show();
@@ -77,37 +51,9 @@ angular.module('starter', ['ionic', 'ngCordova'])
             }
         });
     }
-
-    $scope.delItems = function(product) {
-        var confirmPopup = $ionicPopup.confirm({
-            title: 'Cảnh báo',
-            template: 'Bạn có muốn xóa không?'
-        });
-        console.log(product.id);
-        confirmPopup.then(function(res) {
-            if(res) {
-                var query = "DELETE FROM fruit WHERE id = product.id";
-                $cordovaSQLite.execute(db, query);
-                var myPopup = $ionicPopup.show({
-                    title: 'Xóa thành công!!!'
-                });
-                $timeout(function() {
-                    myPopup.close();
-                }, 500);
-                $scope.show();
-            }
-        });
-    }
     // Chỉnh sửa
-    $scope.edit = function(item) {
-        // $scope.showPopup(product);
-        $scope.product.name = item.name;
-        $scope.product.info = item.info;
-    }
-
-    $scope.update = function(product) {
-        var query = "UPDATE fruit SET name = product.name, info = product.info WHERE product.id = item.id";
-        $cordovaSQLite.execute(db, query, [product.name, product.info]);
+    $scope.edit = function(product) {
+        $scope.showPopup();
     }
     // Hiển thị dữ liệu
     $scope.show = function() {
@@ -124,17 +70,12 @@ angular.module('starter', ['ionic', 'ngCordova'])
         });
     }
 
-    $scope.showPopup = function(item) {
-        console.log(item);
-        $scope.data = [];
+    $scope.showPopup = function() {
         var myPopup = $ionicPopup.show({
-            template: [
-                '<input type="text" ng-model="data.name" placeholder="Name" autofocus>',
-                '<input type="text" ng-model="data.info" placeholder="info">'
-            ],
+            template: '<input type="text" ng-model="product.name">',
             title: 'Chỉnh sửa thông tin',
             scope: $scope,
-            // inputPlaceholder: 'Your password',
+            inputPlaceholder: 'Your password',
             buttons: [
                 { text: 'Cancel' },
                 {
@@ -144,15 +85,13 @@ angular.module('starter', ['ionic', 'ngCordova'])
                         if (!$scope.product.name) {
                             e.preventDefault();
                         } else {
-                            return item.name;
+                            return $scope.product.name;
                         }
                     }
                 },
                 { text: 'Help' },
             ]
         });
-        console.log(item.name);
-        console.log(data.name);
         myPopup.then(function(res) {
             console.log('Tapped!', res);
         });

@@ -22,6 +22,9 @@
 
     <!-- your app's js -->
     <script src="app/app.js"></script>
+    <script src="app/configs/config.js"></script>
+    <script src="app/configs/routes.js"></script>
+    <script src="app/controllers/demoCtrl.js"></script>
 </head>
 
 <body ng-app="starter" ng-controller="appCtrl">
@@ -42,7 +45,8 @@
                 </div>
                 <button class="button button-positive button-block" ng-click="add(product)">Add</button>
             </div>
-            <button class="button button-positive button-block" ng-click="del(product)">Delete</button>
+            <button class="button button-positive button-block" ng-click="update(product)">Update</button>
+            <button class="button button-positive button-block" ng-click="del(product)">Delete All</button>
             <div class="list">
                 <table>
                     <tr>
@@ -50,17 +54,20 @@
                         <th>Tên sản phẩm</th>
                         <th>Mô tả</th>
                         <th>Chỉnh sửa</th>
+                        <th>Xóa</th>
                     </tr>
                     <tr ng-repeat="product in array">
                         <td>{{ product.id }}</td>
                         <td>{{ product.name }}</td>
                         <td>{{ product.info }}</td>
-                        <td><button class="button button-positive button-block" ng-click="edit(product.id)">Edit</button></td>
+                        <td><button class="button button-positive button-block" ng-click="edit(product)">Edit</button></td>
+                        <td><button class="button button-positive button-block" ng-click="delItems(product)">Delete</button></td>
                     </tr>
                 </table>
             </div>
         </ion-content>
     </ion-pane>
 </body>
+
 
 </html>
