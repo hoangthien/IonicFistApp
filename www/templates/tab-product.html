@@ -1,0 +1,35 @@
+<ion-view view-title="Product">
+  <ion-content>
+      <div class="list">
+          <div class="item item-input">
+              <span class="input-label" spellcheck="true"> Tên </span>
+              <input type="text" ng-model="product.name" placeholder="Name" autofocus>
+          </div>
+          <div class="item item-input">
+              <span class="input-label" spellcheck="false"> Mô tả</span>
+              <input type="text" ng-model="product.info" placeholder="Info">
+          </div>
+          <button class="button button-positive button-block" ng-click="add(product)">Add</button>
+      </div>
+      <button class="button button-positive button-block" ng-click="update(product)">Update</button>
+      <button class="button button-positive button-block" ng-click="del(product)">Delete All</button>
+      <div class="list">
+          <table>
+              <tr>
+                  <th>STT</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Mô tả</th>
+                  <th>Chỉnh sửa</th>
+                  <th>Xóa</th>
+              </tr>
+              <tr ng-repeat="product in array">
+                  <td>{{ product.id }}</td>
+                  <td>{{ product.name }}</td>
+                  <td>{{ product.info }}</td>
+                  <td><button class="button button-positive button-block" ng-click="edit(product)">Edit</button></td>
+                  <td><button class="button button-positive button-block" ng-click="delItems(product)">Delete</button></td>
+              </tr>
+          </table>
+      </div>
+  </ion-content>
+</ion-view>
